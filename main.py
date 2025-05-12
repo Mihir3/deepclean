@@ -5,8 +5,8 @@ from lang_sam import LangSAM
 #set system path
 import sys
 sys.path.append("/u/anua2/deepclean")
-from lora.lora_diffusion.lora import patch_pipe
-from lora.lora_diffusion.lora import tune_lora_scale
+from lora_diffusion.lora import patch_pipe
+from lora_diffusion.lora import tune_lora_scale
 from diffusers import DiffusionPipeline, StableDiffusionInpaintPipeline
 import torch
 
@@ -39,7 +39,7 @@ def detect_and_segment(src_image_path: str, remove_objects: list, output_dir: st
     
     save_mask(mask, os.path.join(output_dir, "mask.png"))
 
-def guided_inpainting(src_image_path: str, inpainting_prompt: str, output_dir: str):
+def guided_inpainting(src_image_path: str, inpainting_prompt: str, output_dir: str, finetuned_ckpt_path: str ):
     """
     Performs guided inpainting using the given mask and prompt.
     Args:
@@ -62,16 +62,16 @@ def guided_inpainting(src_image_path: str, inpainting_prompt: str, output_dir: s
     
     patch_pipe(
         pipe,
-        "../test_exps/test-coco_text_extended_inpainting/final_lora.safetensors",
+        finetuned_ckpt_path,
         patch_text=True,
         patch_ti=True,
         patch_unet=True,
     )
 
 
-    tune_lora_scale(pipe.unet, 0.5)
-    tune_lora_scale(pipe.text_encoder, 0.5)
-    ft_inpainted_image = pipe(prompt=inpainting_prompt, image=base_image, mask_image=mask_image, num_inference_steps=100, guidance_scale=7).images[0]
+    tune_lora_scale(pipe.unet, 0.1)
+    tune_lora_scale(pipe.text_encoder, 0.1)
+    ft_inpainted_image = pipe(prompt=inpainting_prompt, image=base_image, mask_image=mask_image, num_inference_steps=500, guidance_scale=7).images[0]
     ft_inpainted_image.save(os.path.join(output_dir, "inpainted_image.png"))
     print(f"Inpainted image saved to {os.path.join(output_dir, 'inpainted_image.png')}")
 
@@ -83,7 +83,7 @@ def main():
     parser.add_argument("--remove_object", type=str, required=True, help="Object(s) to remove, separated by dots")
     parser.add_argument("--inpainting_prompt", type=str, required=True, help="Prompt describing what to replace the object with")
     parser.add_argument("--output_dir", type=str, default="./outputs/", help="Directory to save the results")
-
+    parser.add_argument("--finetuned_ckpt_path", type=str, default="/u/anua2/deepclean/lora/training_scripts/test_exps/test-coco_text_extended_inpainting/final_lora.safetensors", help="Path to the finetuned checkpoint")
     args = parser.parse_args()
 
     # Split multiple objects using '.' delimiter
@@ -96,7 +96,7 @@ def main():
     detect_and_segment(args.src_image_path, remove_objects, args.output_dir)
 
     # Step 2: Guided inpainting
-    guided_inpainting(args.src_image_path, args.inpainting_prompt, args.output_dir)
+    guided_inpainting(args.src_image_path, args.inpainting_prompt, args.output_dir, args.finetuned_ckpt_path)
 
 if __name__ == "__main__":
     main()
