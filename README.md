@@ -35,7 +35,7 @@ To run the end-to-end pipeline:
 
 ```
 Replace the arguments with your specific inputs. The output image will contain the object removed and inpainted with the desired content.
-If you want to run inference with our finetuned SDXL checkpoint, then please put '<s1>' token in inpainting_prompt such as 'write <s1> POLICE in sign'.
+If you want to run inference with our finetuned SDXL checkpoint, then please put `<s1>` token in inpainting_prompt such as 'write <s1> POLICE in sign'.
 
 Example:
   ```bash
