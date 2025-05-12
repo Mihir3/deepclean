@@ -6,7 +6,7 @@ from omegaconf import OmegaConf
 from sam2.automatic_mask_generator import SAM2AutomaticMaskGenerator
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 
-from models.utils import DEVICE
+from lang_sam.models.utils import DEVICE
 
 SAM_MODELS = {
     "sam2.1_hiera_tiny": {

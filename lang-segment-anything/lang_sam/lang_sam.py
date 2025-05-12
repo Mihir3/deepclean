@@ -1,9 +1,9 @@
 import numpy as np
 from PIL import Image
 
-from models.gdino import GDINO
-from models.sam import SAM
-from models.utils import DEVICE
+from lang_sam.models.gdino import GDINO
+from lang_sam.models.sam import SAM
+from lang_sam.models.utils import DEVICE
 
 
 class LangSAM:

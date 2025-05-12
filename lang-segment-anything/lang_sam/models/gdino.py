@@ -2,7 +2,7 @@ import torch
 from PIL import Image
 from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor
 
-from models.utils import DEVICE
+from .utils import DEVICE
 
 
 class GDINO:
