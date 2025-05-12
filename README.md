@@ -28,20 +28,21 @@ Follow these steps to set up the environment:
 To run the end-to-end pipeline:
   ```bash
   python main.py \
-    --image_path path/to/source_image.jpg \
-    --remove_prompt "prompt specifying object to remove" \
-    --add_prompt "prompt specifying object to add" \
+    --src_image_path path/to/source_image.jpg \
+    --remove_object "prompt specifying object to remove" \
+    --inpainting_prompt "prompt specifying object to add" \
     --output_dir path/to/output/
 
 ```
 Replace the arguments with your specific inputs. The output image will contain the object removed and inpainted with the desired content.
+If you want to run inference with our finetuned SDXL checkpoint, then please put '<s1>' token in inpainting_prompt such as 'write <s1> POLICE in sign'.
 
 Example:
   ```bash
   python main.py \
-  --image_path images/input.jpg \
-  --remove_prompt "remove the car" \
-  --add_prompt "add a school bus" \
+  --src_image_path images/input.jpg \
+  --remove_object "remove the car" \
+  --inpainting_prompt "add a school bus" \
   --output_dir results/
 ```
 ## 📦 Data and Checkpoints
