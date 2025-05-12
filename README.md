@@ -43,6 +43,10 @@ Example:
   --remove_prompt "remove the car" \
   --add_prompt "add a school bus" \
   --output_dir results/
+```
+## 📦 Data and Checkpoints
+[Google Drive Link](https://github.com/your-username/your-repository](https://drive.google.com/drive/folders/1fvw24EWZJWpUsN2ZV-2QT3I_Q77688gy?usp=drive_link
+)
 
 
 
